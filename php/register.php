@@ -17,14 +17,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // QR Code filename & API URL
     $qr_filename = $student_id . ".png"; // Store only the filename in the database
-    $qr_filepath = "../qrcodes/" . $qr_filename; // Full path for saving the file
+    $qr_filepath = "../qrcodes/". $qr_filename; // Full path for saving the file
     $qr_api_url = "https://quickchart.io/qr?text=" . urlencode($student_id) . "&size=1000";
 
     // Download the QR code and save it locally
     $qr_image = file_get_contents($qr_api_url);
     
     if ($qr_image) {
-        file_put_contents($qr_filename, $qr_image);
+        file_put_contents($qr_filepath, $qr_image);
     } else {
         $_SESSION['modal_message'] = "Error generating QR code!";
         $_SESSION['modal_type'] = "danger";
