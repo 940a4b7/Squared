@@ -48,7 +48,7 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`student_id`, `first_name`, `middle_name`, `last_name`, `suffix`, `sex`, `avatar`, `program`, `course`, `email`, `password_hash`, `created_at`, `qr_code`) VALUES
-('1162205240', 'Angel Pitch', 'Rebaja', 'Geronggay', '', 'Female', 'JOY', 'CELA', 'Bachelor of Secondary Education Major in Science', 'geronggayangelpitch@gmail.com', '$2y$10$CKmmdJXGpIEURdCcplEYfus4Meyrzb2Jk/MztOefdiz8BAJ3u2HbW', '2025-03-01 22:00:39', '../qrcodes/1162205240.png'),
+('1162205240', 'Angel Pitch', 'Rebaja', 'Geronggay', '', 'Female', 'JOY', 'CELA', 'Bachelor of Secondary Education Major in Science', 'geronggayangelpitch@gmail.com', '$2y$10$CKmmdJXGpIEURdCcplEYfus4Meyrzb2Jk/MztOefdiz8BAJ3u2HbW', '2025-03-01 22:00:39', '1162205240.png'),
 ('1162205280', 'Charles', 'Simblante', 'Evangelio', 'Jr.', 'Male', 'SEVI', 'ITE', 'Bachelor of Science in Information Technology', 'charles123evangelio@gmail.com', '$2y$10$9yPbCpCs5jLxo9aNSS9un.W8ZOpSDAM2ez.FZ8VxBp3UUziITqhUy', '2025-03-01 22:10:43', '1162205280.png');
 
 --
