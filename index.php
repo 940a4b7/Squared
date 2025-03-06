@@ -100,30 +100,47 @@
         </div>
     </div>
 
-    <!-- Login Modal -->
-    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="loginModalLabel">Login</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="mb-3">
-                            <label for="studentId" class="form-label">Student ID</label>
-                            <input type="text" class="form-control" id="studentId" required>
+<!-- Login Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="loginModalLabel">Student Login</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="loginForm" method="POST" action="php/login.php">
+                    <div class="mb-3">
+                        <label for="studentId" class="form-label">Student ID</label>
+                        <input type="text" class="form-control" id="studentId" name="student_id"
+                               autocomplete="username" required>
+                    </div>
+                    <div class="mb-2">
+                        <label for="password" class="form-label">Password</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="password" name="password"
+                                   autocomplete="current-password" required>
+                            <button class="btn btn-outline-secondary" type="button"
+                                    onclick="togglePassword('password', 'togglePasswordIcon')">
+                                <i id="togglePasswordIcon" class="bi bi-eye"></i>
+                            </button>
                         </div>
-                        <div class="mb-3">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="password" required>
+                    </div>
+                    <!-- Remember Me & Forgot Password -->
+                    <div id="loginMessage" class="text-danger mb-3"></div>
+                    <div class="mb-3 d-flex justify-content-between align-items-center">
+                        <div class="form-check">
+                            <input type="checkbox" class="form-check-input" id="rememberMe" name="rememberMe">
+                            <label class="form-check-label" for="rememberMe">Remember Me</label>
                         </div>
-                        <button type="submit" class="btn btn-success w-100">Login</button>
-                    </form>
-                </div>
+                        <a href="forgotpass.php" class="text-primary">Forgot Password?</a>
+                    </div>
+                    <button type="submit" class="btn btn-success w-100">Login</button>
+                </form>
             </div>
         </div>
     </div>
+</div>
 
     <!-- Register Modal -->
     <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
@@ -228,14 +245,16 @@
                         <div class="mb-3">
                             <label for="registerConfirmps" class="form-label">Confirm Password</label>
                             <div class="input-group">
-                                <input type="password" class="form-control" id="registerConfirmps" name="confirmps" required>
-                                <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('registerConfirmps', 'togglePasswordIcon')">
+                                <input type="password" class="form-control" id="registerConfirmps" name="confirmps"
+                                    required>
+                                <button class="btn btn-outline-secondary" type="button"
+                                    onclick="togglePassword('registerConfirmps', 'togglePasswordIcon')">
                                     <i id="togglePasswordIcon" class="bi bi-eye"></i>
                                 </button>
                             </div>
                             <p id="matchMessage" class="text-danger" style="display: none;"></p>
                         </div>
-                            <button type="submit" class="btn btn-success w-100">Register</button>
+                        <button type="submit" class="btn btn-success w-100">Register</button>
                     </form>
                 </div>
             </div>
@@ -262,6 +281,34 @@
 
     <script src="js/pass.js"></script>
     <script src="js/avatarerror.js"></script>
+    <script>
+        document.getElementById("loginForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            let studentId = document.getElementById("studentId").value.trim();
+            let password = document.getElementById("password").value.trim();
+            let loginMessage = document.getElementById("loginMessage");
+
+            fetch("php/login.php", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: `student_id=${encodeURIComponent(studentId)}&password=${encodeURIComponent(password)}`
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === "success") {
+                        window.location.href = "home.php"; // Redirect on successful login
+                    } else {
+                        loginMessage.textContent = data.message;
+                    }
+                })
+                .catch(error => {
+                    loginMessage.textContent = "An error occurred. Please try again.";
+                });
+        });
+    </script>
     <script>
         fetch('php/session.php')
             .then(response => response.json())

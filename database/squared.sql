@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Mar 04, 2025 at 05:38 AM
+-- Generation Time: Mar 06, 2025 at 10:51 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -20,6 +20,19 @@ SET time_zone = "+00:00";
 --
 -- Database: `squared`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `announcements`
+--
+
+CREATE TABLE `announcements` (
+  `id` int(11) NOT NULL,
+  `title` varchar(255) NOT NULL,
+  `content` text NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -48,12 +61,18 @@ CREATE TABLE `students` (
 --
 
 INSERT INTO `students` (`student_id`, `first_name`, `middle_name`, `last_name`, `suffix`, `sex`, `avatar`, `program`, `course`, `email`, `password_hash`, `created_at`, `qr_code`) VALUES
-('1162205240', 'Angel Pitch', 'Rebaja', 'Geronggay', '', 'Female', 'JOY', 'CELA', 'Bachelor of Secondary Education Major in Science', 'geronggayangelpitch@gmail.com', '$2y$10$CKmmdJXGpIEURdCcplEYfus4Meyrzb2Jk/MztOefdiz8BAJ3u2HbW', '2025-03-01 22:00:39', '../qrcodes/1162205240.png'),
-('1162205280', 'Charles', 'Simblante', 'Evangelio', 'Jr.', 'Male', 'SEVI', 'ITE', 'Bachelor of Science in Information Technology', 'charles123evangelio@gmail.com', '$2y$10$9yPbCpCs5jLxo9aNSS9un.W8ZOpSDAM2ez.FZ8VxBp3UUziITqhUy', '2025-03-01 22:10:43', '1162205280.png');
+('1162205240', 'Angel Pitch', 'Rebaja', 'Geronggay', '', 'Female', 'JOY', 'CELA', 'Bachelor of Secondary Education Major in Science', 'geronggayangelpitch@gmail.com', '$2y$10$CKmmdJXGpIEURdCcplEYfus4Meyrzb2Jk/MztOefdiz8BAJ3u2HbW', '2025-03-01 22:00:39', '1162205240.png'),
+('1162205280', 'Charles', 'Simblate', 'Evangelio', 'Jr.', 'Male', 'SEVI', 'ITE', 'Bachelor of Science in Information Technology', 'charles123evangelio@gmail.com', '$2y$10$Dqvr7LYCXu7mLUjlnZDiHu43M.6QvmIxJHLA5.d/vIjxUUvkhPAtK', '2025-03-01 22:10:43', '1162205280.png');
 
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `announcements`
+--
+ALTER TABLE `announcements`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `students`
@@ -61,6 +80,16 @@ INSERT INTO `students` (`student_id`, `first_name`, `middle_name`, `last_name`, 
 ALTER TABLE `students`
   ADD PRIMARY KEY (`student_id`),
   ADD UNIQUE KEY `email` (`email`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `announcements`
+--
+ALTER TABLE `announcements`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
