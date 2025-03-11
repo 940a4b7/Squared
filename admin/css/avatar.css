@@ -1,0 +1,23 @@
+.avatar-option {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
+.avatar-option label {
+    cursor: pointer;
+}
+
+.avatar-option img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    transition: border-color 0.3s;
+}
+
+.avatar-option input[type="radio"]:checked + img {
+    border-color: #388e3c;
+}

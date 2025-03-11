@@ -26,7 +26,7 @@ $result = $conn->query($query);
     <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">
-                <img src="images/Squared_Logo.png" alt="Squared Logo"> Squared Announcements
+                <img src="images/Squared_Logo.png" alt="Squared Logo"> Squared
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
@@ -52,7 +52,7 @@ $result = $conn->query($query);
 
 <!-- Announcements Section -->
 <div class="container mt-5 pt-4">
-        <h2 class="mb-4 text-success text-center">📢 Announcements 📢</h2>
+        <h2 class="mb-4 text-success text-center">Announcements</h2>
 
         <!-- Display Announcements -->
         <?php if ($result->num_rows > 0): ?>
@@ -70,7 +70,7 @@ $result = $conn->query($query);
 
             <?php endwhile; ?>
         <?php else: ?>
-            <div class="alert alert-warning text-center">No announcements available.</div>
+            <div class="alert alert-warning text-center">No announcement available.</div>
         <?php endif; ?>
     </div>
 

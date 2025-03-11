@@ -78,7 +78,7 @@ $filename = $student_id . "_" . $student_name . ".png";
 
     <div id="profile-card" class="profile-container">
         <div class="qr-code">
-            <img src="qrcodes/<?php echo htmlspecialchars($student['qr_code']); ?>" alt="QR Code">
+            <img src="https://i.imgur.com/<?php echo htmlspecialchars($student['qr_code']); ?>.png" alt="QR Code">
         </div>
         <div class="student-name">
             <span class="last-name"><?php echo htmlspecialchars(strtoupper($student['last_name'])); ?></span><br>

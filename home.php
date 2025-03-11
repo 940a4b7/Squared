@@ -117,7 +117,7 @@ if (!$student) {
                 <h4>Your QR Code</h4>
             </div>
             <div class="card-body text-center">
-                <img src="qrcodes/<?php echo htmlspecialchars($student['qr_code']); ?>" class="qr-image" alt="QR Code">
+                <img src="https://i.imgur.com/<?php echo htmlspecialchars($student['qr_code']); ?>.png" class="qr-image" alt="QR Code">
                 <p class="mt-3">Use this QR code for attendance and verification purposes.</p>
             </div>
 
@@ -301,82 +301,104 @@ if (!$student) {
     </div>
 
     <script src="js/changepass.js"></script>
+
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            updateCourses(); // Ensure courses match the selected program on page load
-        });
-
-        function updateCourses() {
-            const courses = {
-                ITE: ["Bachelor of Science in Information Technology"],
-                CELA: [
-                    "Bachelor of Arts Major in History",
-                    "Bachelor of Arts Major in Political Science",
-                    "Bachelor of Elementary Education – Generalist",
-                    "Bachelor of Special Needs Education",
-                    "Bachelor of Secondary Education Major in English",
-                    "Bachelor of Secondary Education Major in Mathematics",
-                    "Bachelor of Secondary Education Major in Science",
-                    "Bachelor of Secondary Education Major in Social Studies",
-                    "Bachelor of Technology and Livelihood Education Major in Home Economics"
-                ],
-                CBA: [
-                    "Bachelor of Science in Business Administration Major in Financial Management",
-                    "Bachelor of Science in Business Administration Major in Human Resource Management",
-                    "Bachelor of Science in Business Administration Major in Marketing Management"
-                ],
-                HME: ["Bachelor of Science in Hospitality Management"],
-                CJE: ["Bachelor of Science in Criminology"]
-            };
-
-            const programDropdown = document.getElementById("program");
-            const courseDropdown = document.getElementById("course");
-
-            // Get selected program
-            const selectedProgram = programDropdown.value;
-
-            // Clear and add the default "Select Course" option
-            courseDropdown.innerHTML = "<option value=''>Select Course</option>";
-
-            if (selectedProgram && courses[selectedProgram]) {
-                courses[selectedProgram].forEach(course => {
-                    const option = document.createElement("option");
-                    option.text = course;
-                    option.value = course;
-                    courseDropdown.add(option);
-                });
-
-                // Auto-select course if only one exists (like in ITE)
-                if (selectedProgram === "ITE") {
-                    courseDropdown.value = courses[selectedProgram][0];
-                }
+document.addEventListener("DOMContentLoaded", function () {
+    fetch('php/fetch.php')
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                console.error(data.error);
+                return;
             }
-        }
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            fetch('php/fetch.php')
-                .then(response => response.json())
-                .then(data => {
-                    if (data.error) {
-                        console.error(data.error);
-                        return;
-                    }
-                    document.getElementById("registerStudentId").value = data.student_id;
-                    document.getElementById("firstName").value = data.first_name;
-                    document.getElementById("middleName").value = data.middle_name || "";
-                    document.getElementById("lastName").value = data.last_name;
-                    document.getElementById("suffix").value = data.suffix || "";
-                    document.getElementById("sex").value = data.sex;
-                    document.getElementById("gmail").value = data.email;
 
-                    // Select the correct avatar
-                    document.querySelector(`input[name="avatar"][value="${data.avatar}"]`).checked = true;
-                })
-                .catch(error => console.error('Error fetching user data:', error));
+            document.getElementById("registerStudentId").value = data.student_id;
+            document.getElementById("firstName").value = data.first_name;
+            document.getElementById("middleName").value = data.middle_name || "";
+            document.getElementById("lastName").value = data.last_name;
+            document.getElementById("suffix").value = data.suffix || "";
+            document.getElementById("sex").value = data.sex;
+            
+            // Set program first
+            document.getElementById("program").value = data.program;
+            
+            // Wait until courses update, then set the correct course
+            setTimeout(() => {
+                document.getElementById("course").value = data.course;
+            }, 100); // Slight delay to ensure the list updates
+
+            document.getElementById("gmail").value = data.email;
+
+            // Select the correct avatar
+            let avatarInput = document.querySelector(`input[name="avatar"][value="${data.avatar}"]`);
+            if (avatarInput) avatarInput.checked = true;
+
+            // Update courses based on the selected program
+            updateCourses();
+        })
+        .catch(error => console.error('Error fetching user data:', error));
+});
+
+    </script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    updateCourses(); // Ensure courses match the selected program on page load
+});
+
+// Function to update course list based on selected program
+function updateCourses() {
+    const courses = {
+        ITE: ["Bachelor of Science in Information Technology"],
+        CELA: [
+            "Bachelor of Arts Major in History",
+            "Bachelor of Arts Major in Political Science",
+            "Bachelor of Elementary Education – Generalist",
+            "Bachelor of Special Needs Education",
+            "Bachelor of Secondary Education Major in English",
+            "Bachelor of Secondary Education Major in Mathematics",
+            "Bachelor of Secondary Education Major in Science",
+            "Bachelor of Secondary Education Major in Social Studies",
+            "Bachelor of Technology and Livelihood Education Major in Home Economics"
+        ],
+        CBA: [
+            "Bachelor of Science in Business Administration Major in Financial Management",
+            "Bachelor of Science in Business Administration Major in Human Resource Management",
+            "Bachelor of Science in Business Administration Major in Marketing Management"
+        ],
+        HME: ["Bachelor of Science in Hospitality Management"],
+        CJE: ["Bachelor of Science in Criminology"]
+    };
+
+    const programDropdown = document.getElementById("program");
+    const courseDropdown = document.getElementById("course");
+
+    // Get selected program and existing course value
+    const selectedProgram = programDropdown.value;
+    const currentCourse = courseDropdown.dataset.selected || "";
+
+    // Clear and add the default "Select Course" option
+    courseDropdown.innerHTML = "<option value=''>Select Course</option>";
+
+    if (selectedProgram && courses[selectedProgram]) {
+        courses[selectedProgram].forEach(course => {
+            const option = document.createElement("option");
+            option.text = course;
+            option.value = course;
+            if (course === currentCourse) {
+                option.selected = true; // Auto-select the student's saved course
+            }
+            courseDropdown.add(option);
         });
 
-    </script>
+        // Auto-select course if only one exists (like in ITE)
+        if (courses[selectedProgram].length === 1) {
+            courseDropdown.value = courses[selectedProgram][0];
+        }
+    }
+}
+</script>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <?php if (isset($_SESSION['message'])): ?>
